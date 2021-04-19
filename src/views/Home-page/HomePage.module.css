@@ -1,0 +1,7 @@
+.container {
+  font-family: 'New Tegomin', serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 50px;
+}
