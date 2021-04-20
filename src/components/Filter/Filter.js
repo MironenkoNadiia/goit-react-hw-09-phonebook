@@ -2,11 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { CSSTransition } from "react-transition-group";
 import s from "./filter.module.css";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { changeFilter } from "../../redux/phonebook/phonebook-actions";
 import phonebookSelectors from "../../redux/phonebook/contacts-selectors";
 
-function Filter({ value = "", onChangeFilter, items }) {
+export default function Filter() {
+  const dispatch = useDispatch();
+  const value = useSelector(phonebookSelectors.getFilter);
+  const items = useSelector(phonebookSelectors.getAllContacts);
   return (
     <CSSTransition
       in={items.length > 0}
@@ -20,7 +23,7 @@ function Filter({ value = "", onChangeFilter, items }) {
           className={s.input}
           type="text"
           value={value}
-          onChange={onChangeFilter}
+          onChange={(e) => dispatch(changeFilter(e.target.value))}
         />
       </div>
     </CSSTransition>
@@ -29,16 +32,19 @@ function Filter({ value = "", onChangeFilter, items }) {
 
 Filter.propTypes = {
   value: PropTypes.string,
-  onChangeFilter: PropTypes.func.isRequired,
 };
+// Filter.propTypes = {
+//   value: PropTypes.string,
+//   onChangeFilter: PropTypes.func.isRequired,
+// };
 
-const mapStateToProps = (state) => ({
-  value: phonebookSelectors.getFilter(state),
-  items: phonebookSelectors.getAllContacts(state),
-});
+// const mapStateToProps = (state) => ({
+//   value: phonebookSelectors.getFilter(state),
+//   items: phonebookSelectors.getAllContacts(state),
+// });
 
-const mapDispatchToProps = (dispatch) => ({
-  onChangeFilter: (e) => dispatch(changeFilter(e.target.value)),
-});
+// const mapDispatchToProps = (dispatch) => ({
+//   onChangeFilter: (e) => dispatch(changeFilter(e.target.value)),
+// });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Filter);
+// export default connect(mapStateToProps, mapDispatchToProps)(Filter);

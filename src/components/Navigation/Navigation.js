@@ -1,10 +1,11 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import authSelectors from "../../redux/Auth/auth-selectors";
 import s from "./Navigation.module.css";
 
-export const Navigation = ({ isLogedIn }) => {
+function Navigation() {
+  const isLogedIn = useSelector(authSelectors.getIsLogedIn);
   return (
     <nav>
       <NavLink exact to="/" className={s.link} activeClassName={s.activeLink}>
@@ -22,12 +23,6 @@ export const Navigation = ({ isLogedIn }) => {
       )}
     </nav>
   );
-};
+}
 
-const mapStateToProps = (state) => ({
-  isLogedIn: authSelectors.getIsLogedIn(state),
-});
-
-const mapDispatchToProps = {};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Navigation);
+export default React.memo(Navigation);
